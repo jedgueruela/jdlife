@@ -137,7 +137,7 @@ export default {
       response: {
         ...RESPONSE_DEFAULTS
       },
-      /* properties below are declared in blade file */
+      /* values below are declared in blade file */
       formURL: FORM_URL,
       method: METHOD,
       mode: MODE, // edit or create

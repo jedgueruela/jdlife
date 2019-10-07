@@ -1896,7 +1896,7 @@ var RESPONSE_DEFAULTS = {
       isDisabled: false,
       response: _objectSpread({}, RESPONSE_DEFAULTS),
 
-      /* properties below are declared in blade file */
+      /* values below are declared in blade file */
       formURL: FORM_URL,
       method: METHOD,
       mode: MODE,
