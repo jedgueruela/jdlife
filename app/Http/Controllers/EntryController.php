@@ -33,7 +33,7 @@ class EntryController extends Controller
      */
     public function index()
     {
-        $entries = Entry::paginate(20);
+        $entries = Entry::paginate(5);
 
         return view('entry.index', compact('entries'));
     }
@@ -99,7 +99,7 @@ class EntryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, static::$rules);
-        
+
         Entry::findOrFail($id)->update($request->input());
 
         return response()->json(['message' => 'Entry was successfully updated!']);

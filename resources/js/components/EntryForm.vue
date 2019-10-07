@@ -19,9 +19,11 @@
           <div class="card-header">
             Entry Form
             <Spinner v-show="isDisabled" />
+            <a href="/pdf" class="btn btn-success float-right" target="_blank">Download this form</a>
           </div>
           <div class="card-body">
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="onSubmit" method="POST" :action="formURL">
+              <input v-if="method === 'PUT'" type="hidden" name="_method" value="PUT">
               <fieldset :disabled="isDisabled">
                 <div class="form-group">
                   <label for="drawings_or_paye">Are you taking Drawings Or Paye?</label>
@@ -112,6 +114,7 @@
                   Submit 
                   <Spinner v-show="isDisabled" />
                 </button>
+                <a href="/pdf" class="btn btn-success" target="_blank">Download this form</a>
               </fieldset>
             </form>
           </div>
@@ -139,8 +142,7 @@ export default {
       },
       /* values below are declared in blade file */
       formURL: FORM_URL,
-      method: METHOD,
-      mode: MODE, // edit or create
+      method: METHOD, // PUT or POST
       model: {
         ...MODEL_DEFAULTS // default form values
       }
@@ -164,22 +166,19 @@ export default {
       
       const formData = new FormData(event.target);
 
-      axios({
-        data: formData,
-        method: this.method,
-        url: this.formURL,
-      }).then(resp => {
-        this.response.message = resp.data.message;
-        if (this.mode === 'CREATE') {
-          this.model = { ...MODEL_DEFAULTS };
-        }
-      }).catch(error => {
-        this.response.message = error.response.data.message;
-        this.response.errors = error.response.data.errors;
-      }).finally(_ => {
-        this.isDisabled = false;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-      });
+      axios.post(this.formURL, formData)
+        .then(resp => {
+          this.response.message = resp.data.message;
+          if (this.method === 'POST') {
+            this.model = { ...MODEL_DEFAULTS };
+          }
+        }).catch(error => {
+          this.response.message = error.response.data.message;
+          this.response.errors = error.response.data.errors;
+        }).finally(_ => {
+          this.isDisabled = false;
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        });
     }
   }
 }

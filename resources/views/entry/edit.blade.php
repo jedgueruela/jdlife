@@ -4,7 +4,6 @@
     <script>
         var FORM_URL = '{{ route("entries.update", [$entry->id]) }}';
         var METHOD = 'PUT';
-        var MODE = 'EDIT';
         var MODEL_DEFAULTS = {
             drawings_or_paye: '{{ $entry->drawings_or_paye }}',
             is_more_than_three_years: '{{ $entry->is_more_than_three_years }}',

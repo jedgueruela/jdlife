@@ -1884,6 +1884,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 var RESPONSE_DEFAULTS = {
@@ -1899,8 +1902,7 @@ var RESPONSE_DEFAULTS = {
       /* values below are declared in blade file */
       formURL: FORM_URL,
       method: METHOD,
-      mode: MODE,
-      // edit or create
+      // PUT or POST
       model: _objectSpread({}, MODEL_DEFAULTS)
     };
   },
@@ -1922,14 +1924,10 @@ var RESPONSE_DEFAULTS = {
       this.isDisabled = true;
       this.response = _objectSpread({}, RESPONSE_DEFAULTS);
       var formData = new FormData(event.target);
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        data: formData,
-        method: this.method,
-        url: this.formURL
-      }).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.formURL, formData).then(function (resp) {
         _this.response.message = resp.data.message;
 
-        if (_this.mode === 'CREATE') {
+        if (_this.method === 'POST') {
           _this.model = _objectSpread({}, MODEL_DEFAULTS);
         }
       })["catch"](function (error) {
@@ -37933,7 +37931,16 @@ var render = function() {
                       expression: "isDisabled"
                     }
                   ]
-                })
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-success float-right",
+                    attrs: { href: "/pdf", target: "_blank" }
+                  },
+                  [_vm._v("Download this form")]
+                )
               ],
               1
             ),
@@ -37942,6 +37949,7 @@ var render = function() {
               _c(
                 "form",
                 {
+                  attrs: { method: "POST", action: _vm.formURL },
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
@@ -37950,6 +37958,12 @@ var render = function() {
                   }
                 },
                 [
+                  _vm.method === "PUT"
+                    ? _c("input", {
+                        attrs: { type: "hidden", name: "_method", value: "PUT" }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("fieldset", { attrs: { disabled: _vm.isDisabled } }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "drawings_or_paye" } }, [
@@ -38500,6 +38514,15 @@ var render = function() {
                         })
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: { href: "/pdf", target: "_blank" }
+                      },
+                      [_vm._v("Download this form")]
                     )
                   ])
                 ]

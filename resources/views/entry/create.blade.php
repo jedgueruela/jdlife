@@ -4,7 +4,6 @@
     <script>
         var FORM_URL = '{{ route("entries.store") }}';
         var METHOD = 'POST';
-        var MODE = 'CREATE';
         var MODEL_DEFAULTS = {
             drawings_or_paye: '',
             is_more_than_three_years: '',
